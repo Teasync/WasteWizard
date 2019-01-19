@@ -1,18 +1,21 @@
-from django.shortcuts import render, HttpResponse
-from urllib.request import urlopen
-from .models import Item
-import lxml
-from lxml.html.clean import Cleaner
-import json
 import html
+import json
+from urllib.request import urlopen
+
+from django.db.models import Q
+from django.shortcuts import render, HttpResponse
+from lxml.html.clean import Cleaner
+
+from .models import Item
 
 
 def index(request):
     return render(request, 'wiz/index.html', {'all_items': Item.objects.all()})
 
-
 def search(request):
-    return HttpResponse("you searched for" + request.GET['q'])
+    query: str = (request.GET['q']).strip()
+    result_items = Item.objects.filter(Q(keywords__icontains=query) | Q(title__icontains=query))
+    return render(request, 'wiz/results.html', {'all_items': result_items})
 
 
 def all_items(request):

@@ -10,10 +10,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
             integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
             crossorigin="anonymous"></script>
@@ -37,30 +34,33 @@
                     <div class="col">
                         <input type="text" class="form-control" id="searchBar"/>
                     </div>
-                    <a href="#" class="px-2 btn btn-primary" style="background-color: #22975d; border-color: #22975d"><i
+                    <a href="#" class="px-2 btn btn-primary" id='searchButton'
+                       style="background-color: #22975d; border-color: #22975d"><i
                             style="font-size: x-large" class="fas fa-search fa-flip-horizontal"></i></a>
                 </div>
             </form>
         </div>
     </div>
-    {% if all_items %}
-        {% for item in all_items %}
-            <div class="row">
-                <div class="col-1 text-center">
-                    <i style="color: {% if item.saved %}#22975d{% else %}darkgray{% endif %}" class="fas fa-star"></i>
-                </div>
-                <div class="col">
-                    {{ item.title }}
-                </div>
-                <div class="col-8">
-                    {{ item.body|safe }}
-                </div>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>No items are available.</p>
-    {% endif %}
+    <div id="result_items">
 
-
+    </div>
+    {#    {% if all_items %}#}
+    {#        {% for item in all_items %}#}
+    {#            <div class="row">#}
+    {#                <div class="col-1 text-center">#}
+    {#                    <i style="color: {% if item.saved %}#22975d{% else %}darkgray{% endif %}" class="fas fa-star"></i>#}
+    {#                </div>#}
+    {#                <div class="col">#}
+    {#                    {{ item.title }}#}
+    {#                </div>#}
+    {#                <div class="col-8">#}
+    {#                    {{ item.body|safe }}#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        {% endfor %}#}
+    {#    {% else %}#}
+    {#        <p>No items are available.</p>#}
+    {#    {% endif %}#}
 </div>
+<script src="{% static 'wiz/js/main.js' %}"></script>
 </body>

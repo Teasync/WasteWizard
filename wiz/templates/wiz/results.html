@@ -1,0 +1,19 @@
+{% load static %}
+
+{% if all_items %}
+    {% for item in all_items %}
+        <div class="row">
+            <div class="col-1 text-center">
+                <i style="color: {% if item.saved %}#22975d{% else %}darkgray{% endif %}" class="fas fa-star"></i>
+            </div>
+            <div class="col">
+                {{ item.title }}
+            </div>
+            <div class="col-8">
+                {{ item.body|safe }}
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No items are available.</p>
+{% endif %}
