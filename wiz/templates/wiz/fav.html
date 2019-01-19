@@ -1,0 +1,50 @@
+{% load static %}
+
+{% if all_items %}
+    <div style="background-color: #f2fff9">
+        <div class="row">
+            <div class="col m-3">
+                <h2 style="font-weight: bold; color: #22975d">Favourites</h2>
+            </div>
+        </div>
+        {% for item in all_items %}
+            <div class="row">
+                <div class="col-1 text-center py-1">
+                    <a href="#" id="{{ item.id }}f"><i
+                            style="color: {% if item.saved %}#22975d{% else %}darkgray{% endif %}"
+                            class="fas fa-star px-2"></i>
+                    </a>
+                    <script>
+                        $('#{{ item.id }}f').click(function (e) {
+                            $.ajax('save_item', {
+                                method: 'POST',
+                                data: {
+                                    id: {{ item.id }},
+                                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                                },
+                                success: function () {
+                                    $.get('fav', function (d) {
+                                        $('#fav_items').html(d);
+                                    });
+                                    if ($('#searchBar').val() != '') {
+                                        $.get('search', {'q': $('#searchBar').val()}, function (d) {
+                                            $('#result_items').html(d);
+                                        });
+                                    }
+                                }
+                            })
+                        });
+                    </script>
+                </div>
+                <div class="col">
+                    {{ item.title }}
+                </div>
+                <div class="col-8">
+                    {{ item.body|safe }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% else %}
+{% endif %}

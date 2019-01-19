@@ -1,5 +1,6 @@
 import html
 import json
+import logging
 from urllib.request import urlopen
 
 from django.db.models import Q
@@ -8,14 +9,32 @@ from lxml.html.clean import Cleaner
 
 from .models import Item
 
+logger = logging.getLogger(__name__)
+
 
 def index(request):
     return render(request, 'wiz/index.html', {'all_items': Item.objects.all()})
+
 
 def search(request):
     query: str = (request.GET['q']).strip()
     result_items = Item.objects.filter(Q(keywords__icontains=query) | Q(title__icontains=query))
     return render(request, 'wiz/results.html', {'all_items': result_items})
+
+
+def save_item(request):
+    save_id = request.POST['id']
+    i = Item.objects.get(pk=save_id)
+    logger.error(str(i) + ' found with pk, currently is saved? ' + str(i.saved))
+    i.saved = not i.saved
+    i.save()
+    return HttpResponse('toggled save of item ' + str(save_id))
+
+
+def fav(request):
+    result_items = Item.objects.filter(saved__exact=True)
+    logger.error(result_items)
+    return render(request, 'wiz/fav.html', {'all_items': result_items})
 
 
 def all_items(request):

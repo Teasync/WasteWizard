@@ -3,8 +3,32 @@
 {% if all_items %}
     {% for item in all_items %}
         <div class="row">
-            <div class="col-1 text-center">
-                <i style="color: {% if item.saved %}#22975d{% else %}darkgray{% endif %}" class="fas fa-star"></i>
+            <div class="col-1 text-center py-1">
+                <a href="#" id="{{ item.id }}"><i
+                        style="color: {% if item.saved %}#22975d{% else %}darkgray{% endif %}"
+                        class="fas fa-star"></i>
+                </a>
+                <script>
+                    $('#{{ item.id }}').click(function (e) {
+                        $.ajax('save_item', {
+                            method: 'POST',
+                            data: {
+                                id: {{ item.id }},
+                                csrfmiddlewaretoken: '{{ csrf_token }}'
+                            },
+                            success: function () {
+                                $.get('fav', function (d) {
+                                    $('#fav_items').html(d);
+                                });
+                                if ($('#searchBar').val() != '') {
+                                    $.get('search', {'q': $('#searchBar').val()}, function (d) {
+                                        $('#result_items').html(d);
+                                    });
+                                }
+                            }
+                        })
+                    });
+                </script>
             </div>
             <div class="col">
                 {{ item.title }}
@@ -14,6 +38,7 @@
             </div>
         </div>
     {% endfor %}
+
 {% else %}
     <p>No items are available.</p>
 {% endif %}
