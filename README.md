@@ -4,4 +4,4 @@ A web-app for accessing the Waste Wizard information repository for Shopify's We
 
 Implemented in Django with Bootstrap 4 and PostgreSQL.
 
-Example hosted at [wiz.cerul3an.ca](wiz.cerul3an.ca).
+Example hosted at [wiz.cerul3an.ca](http://wiz.cerul3an.ca).
